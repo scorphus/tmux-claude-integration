@@ -1,0 +1,18 @@
+# Add these lines to your ~/.tmux.conf (or wherever yours lives).
+# They assume claude-announce.sh / claude-fleet.sh / claude-menu.sh are
+# installed at ~/.claude/ — see the README for the symlink setup.
+
+# bell-flagged window title (the Stop/Notification hook rings the bell)
+setw -g window-status-bell-style bg=red,fg=white,bold
+
+# prefix+A: jump to the next window with an alert (e.g. a bell-flagged window)
+# tmux also binds this to prefix+M-n out of the box, in case "A" is already
+# taken in your own config.
+bind A next-window -a
+
+# prefix+Backspace: menu of live Claude Code sessions, pick one to jump to it
+bind BSpace run-shell -b "bash ~/.claude/claude-menu.sh"
+
+# live Claude Code sessions (● busy / ○ idle) in the status bar
+set -g status-right-length 120
+set -g status-right '#(bash ~/.claude/claude-fleet.sh)%H:%M %d-%b-%y'
